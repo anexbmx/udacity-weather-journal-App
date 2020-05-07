@@ -1,0 +1,32 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>hello wolrd</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <label for="zip">Enter the zip Code</label>
+    <input id="zip"
+           type="text"
+           placeholder="enter zip code here"
+           value="94040,us">
+    <textarea id="feelings"
+              placeholder="type your response here..."
+              rows="9"
+              cols="50"></textarea>
+    <img class="spinner hide" src="img/spinner.gif" alt="">
+    <button id="generate">Generate</button>
+
+    <div id="entryHolder">
+        <div id="date"></div>
+        <div id="temp"></div>
+        <div id="content"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

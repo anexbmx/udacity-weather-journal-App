@@ -1,0 +1,50 @@
+input, textarea {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    margin: 10px;
+}
+
+button {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    margin: 10px;
+}
+
+button:hover {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+button:disabled {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+    opacity: .65;
+}
+
+.spinner {
+    width: 38px;
+    vertical-align: middle;
+}
+
+.hide {
+    display: none;
+}
