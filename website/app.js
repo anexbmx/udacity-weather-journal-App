@@ -1,40 +1,19 @@
-const API_KEY = "75aa1a71465a5e1d1188620aa26ac98a";
-/*
- when use 'http://api.openweathermap.org/data/2.5/weather?zip='
- an error appears
-    Access to fetch at 'http://api.openweathermap.org/data/2.5/weather?zip=94040,us&appid=75aa1a71465a5e1d1188620aa26ac98a' 
-    from origin 'http://localhost:3000' has been blocked by CORS policy
-  --> Then I researched and found this solution:
-    to put this url 'https://cors-anywhere.herokuapp.com/' in front of the initial URL
-*/
-const baseUrl = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?zip=";
+const API_KEY = "75aa1a71465a5e1d1188620aa26ac98a&units=imperial";
+
+const baseUrl = "https://api.openweathermap.org/data/2.5/weather?zip=";
 
 const generateButton = document.getElementById("generate");
 const spinnerImg = document.querySelector(".spinner");
 
-// helper method
-const fetchParams = (method = 'GET', data = {}) => {
-    const params = {
-        method: method,
-        credentials: "same-origin",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
 
-    if(method == 'POST') {
-        params["body"] = JSON.stringify(data);
-    }
-
-    return params;
-}
 
 // Async GET
 const retrieveData = async (url = '', zipCode, API_KEY) => {
     url = `${url + zipCode}&appid=${API_KEY}`;
-    const response = await fetch(url, fetchParams());
+    const response = await fetch(url);
     try {
         const responseAsJson = await response.json();
+        console.log(responseAsJson);
         return responseAsJson;
     } catch (error) {
         console.log("error", error);
@@ -42,35 +21,42 @@ const retrieveData = async (url = '', zipCode, API_KEY) => {
 };
 
 // Async POST
-const postData = async ( url = '', data = {})=>{
+const postData = async (url = '', data = {}) => {
 
-    const response = await fetch(url, fetchParams('POST', data));
+    const response = await fetch(url, {
+        method: 'POST',
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    });
     try {
-      const responseData = await response.json();
-      return responseData;
-    }catch(error) {
-    console.log("error", error);
+        const responseData = await response.json();
+        return responseData;
+    } catch (error) {
+        console.log("error", error);
     }
 };
 
 const updateUI = async () => {
-    const response = await fetch('/all', fetchParams());
+    const response = await fetch('/all');
     try {
-      const responseAsJson = await response.json()
-      // update new entry values
-      document.getElementById('date').innerHTML = "<b>date: </b>" + responseAsJson.date;
-      document.getElementById('temp').innerHTML = "<b>temp: </b>" + responseAsJson.temperature;
-      document.getElementById('content').innerHTML = "<b>Content: </b>" + responseAsJson.userResponse;
-      
-      spinnerImg.classList.add("hide");
-      generateButton.removeAttribute("disabled");
+        const responseAsJson = await response.json()
+        // update new entry values
+        document.getElementById('date').innerHTML = "<b>date: </b>" + responseAsJson.date;
+        document.getElementById('temp').innerHTML = "<b>temp: </b>" + responseAsJson.temperature;
+        document.getElementById('content').innerHTML = "<b>Content: </b>" + responseAsJson.userResponse;
+
+        spinnerImg.classList.add("hide");
+        generateButton.removeAttribute("disabled");
     }
     catch (error) {
-      console.log("error", error);
+        console.log("error", error);
     }
-  };
+};
 
-function performAction () {
+function performAction() {
     const zip = document.getElementById("zip").value;
     const content = document.getElementById("feelings").value;
     const date = new Date().toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -80,10 +66,10 @@ function performAction () {
 
     retrieveData(baseUrl, zip, API_KEY)
         .then((response) => {
-            const data = { 
-                date, 
-                temperature: response.main.temp, 
-                userResponse: content 
+            const data = {
+                date,
+                temperature: response.main.temp,
+                userResponse: content
             };
             postData('/add', data);
         })
