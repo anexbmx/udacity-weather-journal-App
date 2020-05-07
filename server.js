@@ -16,11 +16,11 @@ app.use(cors());
 /* Initialize the main project folder*/
 app.use(express.static("website"));
 
-// POST route
+// GET route
 app.get("/all", (req, res) => {
     res.send(projectData);
 })
-// GET route
+// POST route
 app.post("/add", (req, res) => {
     const body = req.body;
     projectData["temperature"] = body.temperature;
