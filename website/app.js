@@ -30,8 +30,8 @@ const fetchParams = (method = 'GET', data = {}) => {
 }
 
 // Async GET
-const retrieveData = async (url = '', zipCode, ApiAPI_KEY) => {
-    url = `${url + zipCode}&appid=${ApiAPI_KEY}`;
+const retrieveData = async (url = '', zipCode, API_KEY) => {
+    url = `${url + zipCode}&appid=${API_KEY}`;
     const response = await fetch(url, fetchParams());
     try {
         const responseAsJson = await response.json();
@@ -85,8 +85,6 @@ function performAction () {
                 temperature: response.main.temp, 
                 userResponse: content 
             };
-            console.log(response)
-            console.log(data)
             postData('/add', data);
         })
         .then(() => {
